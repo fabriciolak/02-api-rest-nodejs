@@ -1,10 +1,14 @@
-import { randomUUID } from 'crypto'
+import { randomUUID } from 'node:crypto'
 import { FastifyInstance } from 'fastify'
 import { z } from 'zod'
 import { knex } from '../database'
 import { checkIfSessionIdExists } from '../middlewares/check-session-id-exists'
 
 export async function transactionsRoutes(app: FastifyInstance) {
+  app.addHook('preHandler', async (request, reply) => {
+    console.log(`[${request.method}] ${request.url}`)
+  })
+
   app.get(
     '/',
     {
